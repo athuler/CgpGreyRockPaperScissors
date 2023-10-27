@@ -9,12 +9,12 @@ class video {
 	public $views = 1;
 	public $parents = [];
 	public $child_path;
-	public $ending;
+	#public $ending;
 	
 	public function __construct(
 		$children = [],
 		$child_path = ["L", "W"],
-		$ending = False
+		public $ending = False
 	) {
 		$this->children = $children;
 		$this->child_path = $child_path;
