@@ -1,4 +1,4 @@
 # Cgp Grey: RockPaperScissors - A Statistical Analysis
-Work in Progress
- 
-Update: I am in pain, why did I decide to do this? I'm in too deep now!
+[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/athuler)
+
+Visit the project [here](https://clearscope-services.com/cgp-grey-rock-paper-scissors/)!
