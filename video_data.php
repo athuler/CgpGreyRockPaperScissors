@@ -241,7 +241,7 @@ $GLOBALS["data"]["I32ZGazBqWY"] = new video(
 $GLOBALS["data"]["-bGMZAWuL1o"] = new video(
 	["d0R5Csv7ogU","7GEmEWf1KgY"]);
 $GLOBALS["data"]["7GEmEWf1KgY"] = new video(
-	["d0R5Csv7ogU","7GEmEWf1KgY"]);
+	["d0R5Csv7ogU","4wUukNXczpM"]);
 $GLOBALS["data"]["4wUukNXczpM"] = new video(
 	[], ending:True); // END
 $GLOBALS["data"]["d0R5Csv7ogU"] = new video(
