@@ -9,13 +9,11 @@ class video {
 	public $views = 1;
 	public $parents = [];
 	public $child_path;
-	public $child_prob;
 	public $ending;
 	
 	function __construct(
 		$children = [],
 		$child_path = ["L", "W"],
-		$child_prob = [2/3, 1/3],
 		$ending = False
 	) {
 		$this->children = $children;
@@ -77,7 +75,7 @@ $GLOBALS["data"]["xjo-L59q8K4"] = new video(
 	["dzK444eg53c","b41_jrE8jFw"]);
 $GLOBALS["data"]["dzK444eg53c"] = new video(
 	["83hQScodfDA","LLZJ-U1UB5M"]);
-$GLOBALS["data"]["LLZJ-U1UB5M"] = new video(ending:True); // END
+$GLOBALS["data"]["LLZJ-U1UB5M"] = new video(ending: True); // END
 $GLOBALS["data"]["83hQScodfDA"] = new video(
 	["TFlsl2ZkBlI","j-jqX7AdQT8"]);
 $GLOBALS["data"]["TFlsl2ZkBlI"] = new video(
