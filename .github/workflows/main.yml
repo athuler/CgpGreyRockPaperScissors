@@ -9,12 +9,7 @@ jobs:
     steps:
     - name: Get latest code
       uses: actions/checkout@v2
-      
-    - name: Manage API Key
-      env: 
-        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-        run: example-command "$GOOGLE_API_KEY"
-        
+    
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
