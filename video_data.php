@@ -45,6 +45,7 @@ class video {
 			$S_count = substr_count($path, 'S'); // Scissors
 			$E_count = substr_count($path, 'E'); // End
 			$B_count = substr_count($path, 'B'); // To A Billion
+			$T_count = substr_count($path, 'T'); // To A Trillion
 			$total_prob += 
 				(2/3)**$L_count *
 				(1/3)**$W_count *
@@ -52,7 +53,8 @@ class video {
 				(1/3)**$P_count *
 				(1/3)**$S_count *
 				(1/2)**$E_count *
-				(1/2)**$B_count;
+				(1/2)**$B_count *
+				(1/2)**$T_count;
 		}
 		return($total_prob);
 	}
@@ -213,9 +215,41 @@ $GLOBALS["data"]["87zN8iWo5pU"] = new video(
 $GLOBALS["data"]["s3rUNS68AKs"] = new video(
 	[], ending:True); // END
 $GLOBALS["data"]["K1kVsxsnYyc"] = new video(
-	[], ending:True); // BILLION
+	["AgHpWh77STQ","wf6sqW38AmM"], ending:False); // BILLION
+$GLOBALS["data"]["wf6sqW38AmM"] = new video(
+	["AgHpWh77STQ","j92TH0iaCrE"]);
+$GLOBALS["data"]["j92TH0iaCrE"] = new video(
+	["AgHpWh77STQ","r8LgYG67bCA"]);
+$GLOBALS["data"]["r8LgYG67bCA"] = new video(
+	["AgHpWh77STQ","DZLnWKM90nQ"]);
+$GLOBALS["data"]["DZLnWKM90nQ"] = new video(
+	["AgHpWh77STQ","aSjsXUdaIgQ"]);
+$GLOBALS["data"]["aSjsXUdaIgQ"] = new video(
+	["AgHpWh77STQ","HunlKDzXNv0"]);
+$GLOBALS["data"]["HunlKDzXNv0"] = new video(
+	["s3rUNS68AKs","gv7_NTC_Rgs"], child_path:["E","T"]);
+$GLOBALS["data"]["gv7_NTC_Rgs"] = new video(
+	["d0R5Csv7ogU","sbgMHxUkfFI"]);
+$GLOBALS["data"]["sbgMHxUkfFI"] = new video(
+	["d0R5Csv7ogU","4Nk29OAqZTw"]);
+$GLOBALS["data"]["4Nk29OAqZTw"] = new video(
+	["d0R5Csv7ogU","OjHzloSmLZg"]);
+$GLOBALS["data"]["OjHzloSmLZg"] = new video(
+	["d0R5Csv7ogU","I32ZGazBqWY"]);
+$GLOBALS["data"]["I32ZGazBqWY"] = new video(
+	["d0R5Csv7ogU","-bGMZAWuL1o"]);
+$GLOBALS["data"]["-bGMZAWuL1o"] = new video(
+	["d0R5Csv7ogU","7GEmEWf1KgY"]);
+$GLOBALS["data"]["7GEmEWf1KgY"] = new video(
+	["d0R5Csv7ogU","7GEmEWf1KgY"]);
+$GLOBALS["data"]["4wUukNXczpM"] = new video(
+	[], ending:True); // END
+$GLOBALS["data"]["d0R5Csv7ogU"] = new video(
+	[], ending:True); // END
+$GLOBALS["data"]["AgHpWh77STQ"] = new video(
+	[], ending:True); // END
 $GLOBALS["data"]["dU22iL1ZsWQ"] = new video(
-	[], ending:True); // BILLION
+	[], ending:True); // END
 $GLOBALS["data"]["_mrAeT9kpPM"] = new video(
 	["r9-jSTCiHd0","hoaLwPc571E"]);
 $GLOBALS["data"]["r9-jSTCiHd0"] = new video(
