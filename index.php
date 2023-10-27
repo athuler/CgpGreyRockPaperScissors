@@ -132,7 +132,7 @@ foreach($all_responses as $vid) {
 			<!-- Title -->
 			<h1 id="title">CGP Grey: Rock Paper Scissors</h1>
 			<h2>A Visual and Statistical Overview</h2>
-			<p><i>Last Updated: <?=$date_last_query->format("y/m/d - H:i")?> UTC</i></p>
+			<p><i>Last Updated: <?=$date_last_query->format("y/m/d - H:i")?></i></p>
 			<br/><br/>
 			
 			<!-- Visual Controls -->
