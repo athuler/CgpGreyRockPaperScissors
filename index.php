@@ -1,6 +1,7 @@
 <?php
 
-$GLOBALS["API_KEY"] = $_ENV["GOOGLE_API_KEY"];
+//$GLOBALS["API_KEY"] = $_ENV["GOOGLE_API_KEY"];
+$GLOBALS["API_KEY"] = ${{ secrets.GOOGLE_API_KEY }};
 
 ###### Create Video Tree #####
 require_once("video_data.php");
