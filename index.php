@@ -1,9 +1,14 @@
 <?php
+// Error Handling
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+// Load Secrets
 require_once("secrets.php");
 //$GLOBALS["API_KEY"] = $_ENV["GOOGLE_API_KEY"];
 //$GLOBALS["API_KEY"] = ${{ secrets.GOOGLE_API_KEY }};
-echo("hi!");
-exit();
+
 ###### Create Video Tree #####
 require_once("video_data.php");
 $first_vid = "PmWQmZXYd74";
