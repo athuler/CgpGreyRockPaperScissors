@@ -253,6 +253,23 @@ while($current_vids != []) {
 				</div>
 			</div>
 			<?php } else if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "E" and
+					$video->child_path[1] == "T"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
+				End<br/><a href="#<?=$video->children[0]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
+</svg></a>
+				</div>
+				<div class="col-3"	id="<?=$vid_id?>-T">
+				Billion!<br/><a href="#<?=$video->children[1]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
+</svg></a>
+				</div>
+			</div>
+			<?php } else if(
 					count($video->children) == 3 and
 					$video->child_path[0] == "R" and
 					$video->child_path[1] == "P" and
@@ -403,7 +420,7 @@ while($current_vids != []) {
 	}
 	
 	body {
-		width:2000px;
+		width:3000px;
 		
 	}
 	
