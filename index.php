@@ -406,7 +406,7 @@ while($current_vids != []) {
 	}
 	
 	body {
-		width:200%;
+		width:2000px;
 		
 	}
 	
