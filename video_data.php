@@ -8,13 +8,15 @@ class video {
 	#public $probabity = 0;
 	public $views = 1;
 	public $parents = [];
-	
+	public $child_path;
+	public $child_prob;
+	public $ending;
 	
 	function __construct(
 		$children = [],
-		public $child_path = ["L", "W"],
-		public $child_prob = [2/3, 1/3],
-		public $ending = False
+		$child_path = ["L", "W"],
+		$child_prob = [2/3, 1/3],
+		$ending = False
 	) {
 		$this->children = $children;
 		$this->child_path = $child_path;
