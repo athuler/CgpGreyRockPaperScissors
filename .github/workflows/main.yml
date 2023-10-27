@@ -13,6 +13,7 @@ jobs:
     - name: Manage API Key
       env: 
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: vendor/bin/phpunit
         
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
