@@ -2,18 +2,18 @@
 
 class video {
 	public $paths = [];
-	public $children;
+	#public $children;
 	#public $child_path;
 	#public $child_prob;
 	#public $probabity = 0;
 	public $views = 1;
 	public $parents = [];
-	public $child_path;
+	#public $child_path;
 	#public $ending;
 	
 	public function __construct(
-		$children = [],
-		$child_path = ["L", "W"],
+		public $children = [],
+		public $child_path = ["L", "W"],
 		public $ending = False
 	) {
 		$this->children = $children;
