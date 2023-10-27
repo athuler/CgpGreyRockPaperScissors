@@ -11,7 +11,7 @@ class video {
 	public $child_path;
 	public $ending;
 	
-	function __construct(
+	public function __construct(
 		$children = [],
 		$child_path = ["L", "W"],
 		$ending = False
