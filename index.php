@@ -58,6 +58,7 @@ $time_difference_minutes = $date_last_query->diff(new DateTime)->i;
 
 if($time_difference_minutes >= 1) {
 	// If it's been more than 1 minute, cache video data
+	$date_last_query = new DateTime;
 
 	// Process videos in batches of 50
 	$all_ids = array_chunk(
@@ -391,8 +392,8 @@ while($current_vids != []) {
 		console.log("Rect Right: " + rect.right);
 		console.log("Scroll Width: " + document.body.scrollWidth);
 		console.log("Screen Width: " + screen.width);
-		var scrollHorizDist = window.scrollX + rect.left - (rect.left + rect.right)/2;
-		var scrollHorizDist = window.scrollX + rect.left - rect.left;
+		//var scrollHorizDist = window.scrollX + rect.left - (rect.left + rect.right)/2;
+		//var scrollHorizDist = window.scrollX + rect.left - rect.left;
 		var scrollHorizDist = (document.body.scrollWidth - window.innerWidth) / 2;
 		
 		console.log(scrollHorizDist);
