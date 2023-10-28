@@ -382,9 +382,21 @@ while($current_vids != []) {
 	
 	function Scrolldown() {
 		var rect = document.getElementById("title").getBoundingClientRect();
-		console.log((rect.right+rect.left)/2);
-		console.log(document.body.scrollWidth);
-		window.scroll(document.body.scrollWidth*0.25,0); 
+		
+		const maxWidth = document.body.scrollWidth - window.innerWidth;
+		console.log("% page " + (window.pageXOffset * 100) / maxWidth);
+		
+		//console.log("Rect x: " + rect.x);
+		console.log("Rect Left: " + rect.left);
+		console.log("Rect Right: " + rect.right);
+		console.log("Scroll Width: " + document.body.scrollWidth);
+		console.log("Screen Width: " + screen.width);
+		var scrollHorizDist = window.scrollX + rect.left - (rect.left + rect.right)/2;
+		var scrollHorizDist = window.scrollX + rect.left - rect.left;
+		var scrollHorizDist = (document.body.scrollWidth - window.innerWidth) / 2;
+		
+		console.log(scrollHorizDist);
+		window.scroll(scrollHorizDist,0); 
 	}
 
 	window.onload = Scrolldown;
