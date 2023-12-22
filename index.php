@@ -502,15 +502,13 @@ while($current_vids != []) {
 	
 	.video {
 		width:320px;
-		margin-top:50px;
-		margin-bottom:50px;
 		margin-right:0px;
 		padding:10px;
 		font-size:16px;
 	}
 	
 	body {
-		width:30000px;
+		width:25000px;
 		
 	}
 	
@@ -527,7 +525,8 @@ while($current_vids != []) {
 	}
 	
 	.video-row {
-		margin-bottom:150px;
+		margin-top:50px;
+		margin-bottom:250px;
 	}
 	
 	
