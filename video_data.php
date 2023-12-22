@@ -59,6 +59,30 @@ class video {
 		return($total_prob);
 	}
 	
+	
+	function alignment() {
+		$align = 0;
+		$inc_win = 200;
+		$inc_lose = 275;
+		$path = str_split(end($this->paths));
+		//echo($path);
+		
+		foreach($path as $letter) {
+			//print("Letter-" . $letter);
+			switch($letter) {
+				case "W":
+					$align = $align + -1 * $inc_win;
+					break;
+				case "L":
+					$align = $align + $inc_lose;
+					break;
+				default:
+					$align = $align;
+			}
+		}
+		return($align);
+	}
+	
 }
 # CHILDREN: [LOSE, WIN]
 $GLOBALS["data"] = [];

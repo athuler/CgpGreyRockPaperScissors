@@ -116,6 +116,7 @@ foreach($all_responses as $vid) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-J4H5B1ENEE"></script>
 	<script>
@@ -125,6 +126,7 @@ foreach($all_responses as $vid) {
 		gtag('config', 'G-J4H5B1ENEE');
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	
 </head>
 <!--<body class="text-center container-fluid overflow-x-scroll">-->
 <body class="text-center overflow-x-auto">
@@ -142,8 +144,8 @@ foreach($all_responses as $vid) {
 			<input type="button" class="btn btn-primary" value="Show/Hide All Paths" onclick="toggle_paths()"/>
 			
 			<!-- Statistics -->
-			<br/><br/>
-			<h3>Some statistics:</h3><p>
+			<br/><br/><br/>
+			<h3>Some Statistics:</h3><p>
 			<b><?=count(array_keys($GLOBALS["data"]))?></b> videos<br/>
 			<b><?php
 				// Compute total video views
@@ -153,8 +155,12 @@ foreach($all_responses as $vid) {
 				}
 				echo(number_format($total_views));
 			?></b> total views
+			</p>
 			
-			</p><br/><br/>
+			<!-- Add Tip on Using Arrows -->
+			<p><i>Tip: Use <i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i> and <i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i> to navigate more easily!</i></p>
+			
+			<br/><br/>
 			
 			<!-- About -->
 			<h3>About this Project:</h3>
@@ -167,7 +173,9 @@ foreach($all_responses as $vid) {
 			<a href="https://github.com/sponsors/athuler" target="__blank" class="col-auto"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86"/></a>
 			</div>
 		</div>
+		
 	</div>
+	
 	<br/>
 	<div id="svgContainer" style="margin: 0px 0px;">
 		<svg id="svg1" width="0" height="0" >
@@ -236,43 +244,68 @@ while($current_vids != []) {
 		
 		array_push($just_showed_vids, $vid_id);
 		
+		
+		
 		?>
 		
-		<div class="video <?php if($video->ending){echo("ending");}?>" id="<?=$vid_id?>" style="margin-right:<?=count($video->parents) * 50 + count($video->children) * 150?>px;magin-top:<?=random_int(10,100)?>px;">
-			<b><?=$vid_id?></b> <a href="https://youtube.com/watch?v=<?=$vid_id?>" target="__blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+		<div
+			class="video <?php if($video->ending){echo("ending");}?>"
+			id="<?=$vid_id?>"
+			style="<?php
+						if($video->alignment() > 0)
+						{
+							?>margin-right:<?php echo($video->alignment());
+						}
+						else
+						{
+							?>margin-left:<?php echo($video->alignment()*-1);
+						}
+					?>px;"
+		>
+			<b><?=$vid_id?></b> <a href="https://youtube.com/watch?v=<?=$vid_id?>" target="__blank"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
 	<path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
 	<path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
 </svg></a><br/>
 			
 			<p class="paths"><u>Paths</u>:<?=implode(", ",$video->paths)?><br/></p>
 			
-			<u>Actually</u>: <?=number_format($video->views/$GLOBALS["data"][$first_vid]->views, 3)?> /
+			<u>Actually</u>: <?=number_format($video->views/$GLOBALS["data"][$first_vid]->views, 5)?> /
 			<?=number_format($video->views)?> views<br/>
 			
-			<u>Predicted</u>: <?=number_format($video->probability(),3)?> /
+			<u>Predicted</u>: <?=number_format($video->probability(),5)?> /
 			<?=number_format($video->probability() * $GLOBALS["data"][$first_vid]->views)?> views<br/>
 			
 			<p class="children"><u>Children</u>:<br/><?=implode("<br/>",$video->children)?></p>
 			
-			<p class="parents"><u>Parents</u>:<br/><?=implode("<br/>",$video->parents)?></p>
+			<p class="parents"><br/><u>Parents</u>:<br/><?=implode("<br/>",$video->parents)?></p>
 			
 			<?php if($video->ending){?>
 			<br/><h3>END</h3>
 			<?php } ?>
-			
+			<br/>
 			<!-- Connector for path trace -->
 			<?php if(
 					count($video->children) == 2 and
 					$video->child_path[0] == "L" and
 					$video->child_path[1] == "W"
 					) { ?>
+			
+			
+			
+			
 			<div class="row">
-				<div class="offset-3 col-3" id="<?=$vid_id?>-L">Lose<br/><a href="#<?=$video->children[0]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="red"/>
-</svg></a></div>
-				<div class="col-3" id="<?=$vid_id?>-W">Win<br/><a href="#<?=$video->children[1]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"	stroke="green"/>
-</svg></a></div>
+				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
+					Lose<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i>
+					</a>
+				</div>
+				<div class="col-3" id="<?=$vid_id?>-W" style="">
+					Win<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i>	
+					</a>
+				</div>
 			</div>
 			<?php } else if(
 					count($video->children) == 2 and
@@ -281,14 +314,16 @@ while($current_vids != []) {
 					) { ?>
 			<div class="row">
 				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
-				End<br/><a href="#<?=$video->children[0]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 				<div class="col-3"	id="<?=$vid_id?>-B">
-				Billion!<br/><a href="#<?=$video->children[1]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					Billion!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 			</div>
 			<?php } else if(
@@ -298,14 +333,16 @@ while($current_vids != []) {
 					) { ?>
 			<div class="row">
 				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
-				End<br/><a href="#<?=$video->children[0]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 				<div class="col-3"	id="<?=$vid_id?>-T">
-				Trillion!!<br/><a href="#<?=$video->children[1]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					Trillion!!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 			</div>
 			<?php } else if(
@@ -316,19 +353,22 @@ while($current_vids != []) {
 					) { ?>
 			<div class="row">
 				<div class="col-4"	id="<?=$vid_id?>-R">
-				Rock<br/><a href="#<?=$video->children[0]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					Rock<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 				<div class="col-4"	id="<?=$vid_id?>-P">
-				Paper<br/><a href="#<?=$video->children[1]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					Paper<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 				<div class="col-4"	id="<?=$vid_id?>-S">
-				Scissors<br/><a href="#<?=$video->children[2]?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-	<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" stroke="grey"/>
-</svg></a>
+					Scissors<br/>
+					<a href="#<?=$video->children[2]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
 				</div>
 			</div>
 			<?php } ?>
@@ -466,14 +506,13 @@ while($current_vids != []) {
 	
 	.video {
 		width:320px;
-		margin:50px;
+		margin-right:0px;
 		padding:10px;
 		font-size:16px;
-		margin-right:200px;
 	}
 	
 	body {
-		width:3000px;
+		width:30000px;
 		
 	}
 	
@@ -490,8 +529,10 @@ while($current_vids != []) {
 	}
 	
 	.video-row {
-		margin-bottom:150px;
+		margin-top:50px;
+		margin-bottom:250px;
 	}
+	
 	
 	</style>
 	
