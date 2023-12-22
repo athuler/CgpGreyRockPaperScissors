@@ -144,8 +144,8 @@ foreach($all_responses as $vid) {
 			<input type="button" class="btn btn-primary" value="Show/Hide All Paths" onclick="toggle_paths()"/>
 			
 			<!-- Statistics -->
-			<br/><br/>
-			<h3>Some statistics:</h3><p>
+			<br/><br/><br/>
+			<h3>Some Statistics:</h3><p>
 			<b><?=count(array_keys($GLOBALS["data"]))?></b> videos<br/>
 			<b><?php
 				// Compute total video views
@@ -155,8 +155,12 @@ foreach($all_responses as $vid) {
 				}
 				echo(number_format($total_views));
 			?></b> total views
+			</p>
 			
-			</p><br/><br/>
+			<!-- Add Tip on Using Arrows -->
+			<p><i>Tip: Use <i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i> and <i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i> to navigate more easily!</i></p>
+			
+			<br/><br/>
 			
 			<!-- About -->
 			<h3>About this Project:</h3>
@@ -172,10 +176,6 @@ foreach($all_responses as $vid) {
 		
 	</div>
 	
-	<!-- New -->
-	
-	
-	<!-- Legacy -->
 	<br/>
 	<div id="svgContainer" style="margin: 0px 0px;">
 		<svg id="svg1" width="0" height="0" >
@@ -289,6 +289,10 @@ while($current_vids != []) {
 					$video->child_path[0] == "L" and
 					$video->child_path[1] == "W"
 					) { ?>
+			
+			
+			
+			
 			<div class="row">
 				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
 					Lose<br/>
@@ -508,7 +512,7 @@ while($current_vids != []) {
 	}
 	
 	body {
-		width:25000px;
+		width:30000px;
 		
 	}
 	
