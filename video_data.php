@@ -1,4 +1,5 @@
 <?php
+require("secrets.php");
 
 class video {
 	public $paths = [];
@@ -310,5 +311,99 @@ $GLOBALS["data"]["AGL2OMZzn2g"] = new video(
 
 $GLOBALS["data"]["yCwdjfzxI4I"] = new video(
 	["0odtRIBvjes","RVLUX6BUEJI"]);
+
+$first_vid = "PmWQmZXYd74";
+
+
+###### Build Paths & Parents #####
+foreach($GLOBALS["data"] as $video_id => $video) {
+	$num_children = count($video->children);
+	
+	for($j = 0; $j < $num_children; $j ++) {
+		
+		
+		// Add Parent
+		$GLOBALS["data"][$video->children[$j]]->add_parent($video_id);
+		
+		// Add New Path(s)
+		$new_paths = [];
+		foreach($video->paths as $current_path) {
+			array_push($new_paths,
+				$current_path . $video->child_path[$j]
+			);
+		}
+		$GLOBALS["data"][$video->children[$j]]->add_path(array_unique($new_paths));
+		
+	}
+}
+
+
+###### Fetch Video Views ######
+// Check last time videos were checked
+$last_query_file = "last_query.txt";
+$views_cache_file = "views_cache.txt";
+
+if(!file_exists($last_query_file)) {
+	// Time of Last Query Doesn't Exist
+	file_put_contents($last_query_file, serialize(new DateTime()));
+}
+
+if(!file_exists($views_cache_file)) {
+	// Views Cache Doesn't Exist
+	file_put_contents($views_cache_file, serialize([]));
+}
+	
+
+$date_last_query = unserialize(file_get_contents($last_query_file));
+
+//Check time since last query
+$time_difference_minutes = $date_last_query->diff(new DateTime)->i;
+
+if($time_difference_minutes >= 1) {
+	// If it's been more than 1 minute, cache video data
+	$date_last_query = new DateTime;
+
+	// Process videos in batches of 50
+	$all_ids = array_chunk(
+				array_keys($GLOBALS["data"]),
+				50);
+
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	$all_responses = [];
+	foreach($all_ids as $id_list) {
+
+		curl_setopt_array($curl, [
+			CURLOPT_URL => "https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=" . implode(",", $id_list) . "&key=" . $GLOBALS["API_KEY"],
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_HTTPHEADER => [],
+		]);
+		$response = json_decode(curl_exec($curl), true);
+		if (array_key_exists("items", $response)){
+			$all_responses = array_merge($all_responses,$response["items"]);
+		}
+	}
+	// Cache Video Data
+	file_put_contents($views_cache_file, serialize($all_responses));
+	// Update Time file
+	file_put_contents($last_query_file, serialize(new DateTime()));
+} else {
+	// Get Data from file
+	$all_responses = unserialize(file_get_contents($views_cache_file));
+}
+
+//var_dump($all_responses);
+//exit();
+
+// Save video views to tree
+foreach($all_responses as $vid) {
+	$GLOBALS["data"][$vid["id"]]->set_views($vid["statistics"]["viewCount"]);
+}
+
 
 ?>
