@@ -245,7 +245,7 @@ function displayVideo($vid_id) {
 		?>
 		<!-- Display Current Vid -->
 		<div
-			class="col-auto video <?php if($video->ending){echo("ending");}?>"
+			class="video <?php if($video->ending){echo("ending");}?>"
 			id="<?=$vid_id?>"
 		>
 			<div class="row">
