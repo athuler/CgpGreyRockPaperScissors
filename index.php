@@ -243,11 +243,144 @@ function displayVideo($vid_id) {
 		// Log Video as Shown
 		array_push($GLOBALS["shown_vids"], $vid_id);
 		?>
-		<!-- Current Vid -->
-		<div class="row">
-			<p><?php if($video->ending){echo("<b>");} ?><?=$vid_id?><?php if($video->ending){echo("</b>");} ?></p>
+		<!-- Display Current Vid -->
+		<div
+			class="col-auto video <?php if($video->ending){echo("ending");}?>"
+			id="<?=$vid_id?>"
+		>
+			<div class="row">
+				<p><?php if($video->ending){echo("<b>");} ?><?=$vid_id?><?php if($video->ending){echo("</b>");} ?></p>
+			</div>
+			
+			<!-- Connector for path trace -->
+			<div class="row justify-content-center">
+				<?php for($i=0; $i < count($video->children); $i++) { ?>
+				<div class="col-auto" id="<?=$vid_id?>-<?=$video->child_path[$i]?>">
+					<?php
+					switch($video->child_path[$i]) {
+						case "L":
+							echo "Loss";
+							break;
+						case "W":
+							echo "Win";
+							break;
+						case "E":
+							echo "End";
+							break;
+						case "B":
+							echo "Billion";
+							break;
+						case "T":
+							echo "Trillion";
+							break;
+						case "R":
+							echo "Rock";
+							break;
+						case "P":
+							echo "Paper";
+							break;
+						case "S":
+							echo "Scissors";
+							break;
+						default:
+							echo "Follow";
+					}
+					?><br/>
+					<a href="#<?=$video->children[$i]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i>
+					</a>
+				</div>
+				<?php } ?>
+			</div>
+			<!--<?php if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "L" and
+					$video->child_path[1] == "W"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
+					Lose<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i>
+					</a>
+				</div>
+				<div class="col-3" id="<?=$vid_id?>-W" style="">
+					Win<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i>	
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "E" and
+					$video->child_path[1] == "B"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-3"	id="<?=$vid_id?>-B">
+					Billion!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "E" and
+					$video->child_path[1] == "T"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-3"	id="<?=$vid_id?>-T">
+					Trillion!!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 3 and
+					$video->child_path[0] == "R" and
+					$video->child_path[1] == "P" and
+					$video->child_path[2] == "S"
+					) { ?>
+			<div class="row">
+				<div class="col-4"	id="<?=$vid_id?>-R">
+					Rock<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-4"	id="<?=$vid_id?>-P">
+					Paper<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-4"	id="<?=$vid_id?>-S">
+					Scissors<br/>
+					<a href="#<?=$video->children[2]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } ?>-->
+			<!-- END Connector for path trace -->
 		</div>
-		<!-- Children -->
+		
+		
+		<!-- Display Children -->
 		<div class="row">
 			<?php
 			foreach($video->children as $child) { ?>
@@ -261,7 +394,10 @@ function displayVideo($vid_id) {
 }
 ?> <hr><div class="row"><div class="col-auto"> <?php
 	displayVideo($first_vid);
-?> </div></div> <hr><?php 
+?> </div></div> <hr>
+
+<!-- LEGACY -->
+<?php 
 $current_vids = [$first_vid];
 $shown_vids = [];
 while($current_vids != []) {
@@ -341,10 +477,6 @@ while($current_vids != []) {
 					$video->child_path[0] == "L" and
 					$video->child_path[1] == "W"
 					) { ?>
-			
-			
-			
-			
 			<div class="row">
 				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
 					Lose<br/>
@@ -424,6 +556,7 @@ while($current_vids != []) {
 				</div>
 			</div>
 			<?php } ?>
+			<!-- END Connector for path trace -->
 		</div>
 		<?php
 		
@@ -556,14 +689,14 @@ while($current_vids != []) {
 	div{ opacity: 1; }
 	
 	.video {
-		width:320px;
-		margin-right:0px;
+		/*width:320px;
+		margin-right:0px;*/
 		padding:10px;
 		font-size:16px;
 	}
 	
 	body {
-		width:30000px;
+		width:10000px;
 		
 	}
 	
