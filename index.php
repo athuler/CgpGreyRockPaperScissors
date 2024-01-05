@@ -210,9 +210,62 @@ foreach($all_responses as $vid) {
 	<?php
 	
 ###### Display Video Tree #####
+$GLOBALS["shown_vids"] = [];
+function displayVideo($vid_id) {
+	
+	// Create Video Object From ID
+	$video = $GLOBALS["data"][$vid_id];
+	
+	
+	##### Check Whether to Display Current Video #####
+	$showVideo = True;
+	
+	// Check if it's been displayed before
+	if(in_array($vid_id, $GLOBALS["shown_vids"])) {
+		$showVideo = False;
+	}
+	
+	// Check all its parents have been displayed
+	$parents_list = $video->parents;
+	foreach($video->parents as $parent) {
+		if(in_array($parent, $GLOBALS["shown_vids"])) {
+			$parents_list = array_diff($parents_list, [$parent]);
+		}
+	}
+	if(count($parents_list) != 0){
+		//array_push($next_vids,$vid_id);
+		$showVideo = False;
+	}
+	
+	
+	##### Display Current Video #####
+	if($showVideo) {
+		// Log Video as Shown
+		array_push($GLOBALS["shown_vids"], $vid_id);
+		?>
+		<!-- Current Vid -->
+		<div class="row">
+			<p><?php if($video->ending){echo("<b>");} ?><?=$vid_id?><?php if($video->ending){echo("</b>");} ?></p>
+		</div>
+		<!-- Children -->
+		<div class="row">
+			<?php
+			foreach($video->children as $child) { ?>
+				<div class="col-auto">
+					<?php displayVideo($child); ?>
+				</div>
+			<?php } ?>
+		</div>
+	<?php }
+	
+}
+?> <hr><div class="row"><div class="col-auto"> <?php
+	displayVideo($first_vid);
+?> </div></div> <hr><?php 
 $current_vids = [$first_vid];
 $shown_vids = [];
 while($current_vids != []) {
+	break;
 	#echo(implode(", ", $current_vids) . "<br/>");
 	echo("<div class='row flex-row flex-nowrap justify-content-center video-row'>");
 	$next_vids = [];
@@ -242,9 +295,8 @@ while($current_vids != []) {
 			continue;
 		}
 		
+		// Log Video as Shown
 		array_push($just_showed_vids, $vid_id);
-		
-		
 		
 		?>
 		
@@ -387,7 +439,6 @@ while($current_vids != []) {
 
 	
 	?>
-	
 	
 	
 
