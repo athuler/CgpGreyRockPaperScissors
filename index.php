@@ -70,7 +70,7 @@ require_once("video_data.php");
 			<p>Made by <a href="https://github.com/athuler" target="__blank">athuler</a> with much blood, sweats, and so many tears.</p>
 			<div>
 				<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="__blank" class="col-auto">Source</a> |
-				<a href="download">Download Data</a> |
+				<a href="download.php">Download Data</a> |
 				<a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="__blank">Report a Bug</a> |
 				<a href="https://github.com/sponsors/athuler" target="__blank" class="col-auto"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86"/></a>
 			</div>
