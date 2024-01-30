@@ -94,18 +94,11 @@ if($time_difference_minutes >= 1) {
 	$all_responses = unserialize(file_get_contents($views_cache_file));
 }
 
-//var_dump($all_responses);
-//exit();
-
 // Save video views to tree
 foreach($all_responses as $vid) {
 	$GLOBALS["data"][$vid["id"]]->set_views($vid["statistics"]["viewCount"]);
 }
 
-
-
-//var_dump($GLOBALS["data"]);
-//exit();
 
 ?>
 
@@ -128,9 +121,10 @@ foreach($all_responses as $vid) {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	
 </head>
-<!--<body class="text-center container-fluid overflow-x-scroll">-->
-<body class="text-center overflow-x-auto">
-	<div class="row justify-content-center">
+<body class="text-center container-fluid overflow-x-scroll">
+	
+	<!-- Top Row -->
+	<div class="row d-flex justify-content-center">
 		<div class="col-auto ">
 			<!-- Title -->
 			<h1 id="title">CGP Grey: Rock Paper Scissors</h1>
@@ -177,6 +171,8 @@ foreach($all_responses as $vid) {
 	</div>
 	
 	<br/>
+	
+	<!-- Connectors -->
 	<div id="svgContainer" style="margin: 0px 0px;">
 		<svg id="svg1" width="0" height="0" >
 			<?php
@@ -381,7 +377,7 @@ function displayVideo($vid_id) {
 		
 		
 		<!-- Display Children -->
-		<div class="row">
+		<div class="row flex-nowrap">
 			<?php
 			foreach($video->children as $child) { ?>
 				<div class="col-auto">
@@ -391,10 +387,13 @@ function displayVideo($vid_id) {
 		</div>
 	<?php }
 	
-}
-?> <hr><div class="row"><div class="col-auto"> <?php
-	displayVideo($first_vid);
-?> </div></div> <hr>
+} ?> 
+
+<!-- Display Videos -->
+<hr><div class="row flex-nowrap"><div class="col justify-content-center">
+	<?php displayVideo($first_vid); ?>
+</div></div><hr>
+
 
 <!-- LEGACY -->
 <?php 
@@ -696,7 +695,7 @@ while($current_vids != []) {
 	}
 	
 	body {
-		width:10000px;
+		/*width:10000px;*/
 		
 	}
 	
