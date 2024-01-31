@@ -124,7 +124,7 @@ foreach($all_responses as $vid) {
 <body class="text-center container-fluid overflow-x-scroll">
 	
 	<!-- Top Row -->
-	<div class="row d-flex justify-content-center">
+	<div class="row justify-content-center text-center">
 		<div class="col-auto ">
 			<!-- Title -->
 			<h1 id="title">CGP Grey: Rock Paper Scissors</h1>
@@ -193,7 +193,7 @@ foreach($all_responses as $vid) {
 					d="M0 0"		 
 					stroke="<?=$color?>" 
 					fill="none"
-					stroke-width="<?=$video->views/$GLOBALS["data"][$first_vid]->views*125?>px";/>
+					stroke-width="<?=$video->views/$GLOBALS["data"][$first_vid]->views*5?>em";/>
 					<?#=round($video->probability()*50)?>
 				<?php
 				}
@@ -255,7 +255,7 @@ function displayVideo($vid_id) {
 					<?php
 					switch($video->child_path[$i]) {
 						case "L":
-							echo "Loss";
+							echo "Lose";
 							break;
 						case "W":
 							echo "Win";
@@ -377,20 +377,45 @@ function displayVideo($vid_id) {
 		
 		
 		<!-- Display Children -->
-		<div class="row flex-nowrap">
+		<div class="d-flex flex-row flex-nowrap container-fluid justify-content-between">
 			<?php
-			foreach($video->children as $child) { ?>
-				<div class="col-auto">
+			switch (sizeof($video->children)) {
+				case 2:
+					$numCols = 6;
+					break;
+				case 3:
+					$numCols = 4;
+					break;
+				case 4:
+					$numCols = 3;
+					break;
+				default:
+					$numCols = 12;
+			}
+			
+			foreach($video->children as $child) { 
+				
+				?>
+				<div class="col-auto p-<?=$numCols;?>">
 					<?php displayVideo($child); ?>
 				</div>
 			<?php } ?>
 		</div>
-	<?php }
+		
+	<?php } else {
+		// Video not being Shown
+		?>
+		<!-- Not showing video yet -->
+		<div style="padding:50px;" class="">
+			
+		</div>
+		<?php
+		}
 	
 } ?> 
 
 <!-- Display Videos -->
-<hr><div class="row flex-nowrap"><div class="col justify-content-center">
+<hr><div class="row flex-nowrap"><div class="col-auto">
 	<?php displayVideo($first_vid); ?>
 </div></div><hr>
 
@@ -623,7 +648,7 @@ while($current_vids != []) {
 		window.scroll(scrollHorizDist,0); 
 	}
 
-	window.onload = Scrolldown;
+	//window.onload = Scrolldown;
 	
 	function toggle_family() {
 		elements = document.getElementsByClassName("children");
@@ -692,10 +717,11 @@ while($current_vids != []) {
 		margin-right:0px;*/
 		padding:10px;
 		font-size:16px;
+		padding-bottom: 150px;
 	}
 	
 	body {
-		/*width:10000px;*/
+		width:10000px;
 		
 	}
 	
