@@ -4,6 +4,9 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+// Configuration
+$CACHE_DURATION_MINUTES = 10; // How long to cache video view data (in minutes)
+
 // Load Secrets
 require_once("secrets.php");
 
@@ -50,7 +53,7 @@ $date_last_query = unserialize(file_get_contents($last_query_file));
 //Check time since last query
 $time_difference_minutes = $date_last_query->diff(new DateTime)->i;
 
-if($time_difference_minutes >= 1) {
+if($time_difference_minutes >= $CACHE_DURATION_MINUTES) {
 	$date_last_query = new DateTime;
 
 	// Process videos in batches of 50
