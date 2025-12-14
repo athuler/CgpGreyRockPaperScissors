@@ -145,12 +145,21 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				}
 			},
 			{
-				selector: '.highlighted',
+				selector: '.selected',
 				style: {
 					'background-color': '#f59e0b',
 					'border-color': '#ea580c',
-					'border-width': 4,
+					'border-width': 6,
 					'z-index': 9999
+				}
+			},
+			{
+				selector: '.connected',
+				style: {
+					'background-color': '#60a5fa',
+					'border-color': '#3b82f6',
+					'border-width': 4,
+					'z-index': 9998
 				}
 			},
 			{
@@ -162,9 +171,7 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			{
 				selector: '.path-highlight',
 				style: {
-					'line-color': '#f59e0b',
-					'target-arrow-color': '#f59e0b',
-					'width': ele => ele.data('width') * 1.5,
+					'width': ele => ele.data('width') * 2.5,
 					'opacity': 1,
 					'z-index': 9999
 				}
@@ -271,23 +278,24 @@ function closeInfoPanel() {
 }
 
 function highlightNode(node, cy) {
-	cy.elements().removeClass('highlighted dimmed path-highlight');
+	cy.elements().removeClass('selected connected dimmed path-highlight');
 
-	node.addClass('highlighted');
+	// Highlight the selected node
+	node.addClass('selected');
 
-	// Highlight connected edges and nodes
-	const neighborhood = node.neighborhood();
-	neighborhood.addClass('highlighted');
+	// Highlight connected nodes (parents and children)
+	const connectedNodes = node.neighborhood().nodes();
+	connectedNodes.addClass('connected');
 
 	// Dim everything else
-	cy.elements().not(node).not(neighborhood).addClass('dimmed');
+	cy.elements().not(node).not(connectedNodes).not(node.connectedEdges()).addClass('dimmed');
 
-	// Highlight edges from this node
+	// Highlight edges (make them thicker but keep original colors)
 	node.connectedEdges().addClass('path-highlight');
 }
 
 function clearHighlights(cy) {
-	cy.elements().removeClass('highlighted dimmed path-highlight');
+	cy.elements().removeClass('selected connected dimmed path-highlight');
 }
 
 function navigateToNode(nodeId, cy) {
