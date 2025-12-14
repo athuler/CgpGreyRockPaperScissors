@@ -200,16 +200,12 @@ function showInfoPanel(node, firstVideoViews) {
 			<span class="stat-value">${Number(data.views).toLocaleString()}</span>
 		</div>
 		<div class="stat-row">
-			<span class="stat-label">% of Total:</span>
+			<span class="stat-label">% of Start:</span>
 			<span class="stat-value">${((data.views / firstVideoViews) * 100).toFixed(2)}%</span>
 		</div>
 		<div class="stat-row">
-			<span class="stat-label">Predicted %:</span>
+			<span class="stat-label">Theoretical %:</span>
 			<span class="stat-value">${(data.probability * 100).toFixed(2)}%</span>
-		</div>
-		<div class="stat-row">
-			<span class="stat-label">Accuracy:</span>
-			<span class="stat-value">${(((data.views / firstVideoViews) / data.probability) * 100).toFixed(1)}%</span>
 		</div>
 	`;
 
