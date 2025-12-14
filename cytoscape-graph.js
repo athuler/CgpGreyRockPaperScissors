@@ -28,20 +28,35 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 	// Convert to Cytoscape format
 	const elements = [];
 
+	// Find min and max views for better scaling
+	let minViews = Infinity;
+	let maxViews = 0;
+	Object.keys(videoData).forEach(videoId => {
+		const views = parseInt(videoData[videoId].views) || 1;
+		minViews = Math.min(minViews, views);
+		maxViews = Math.max(maxViews, views);
+	});
+
+	console.log('View count range:', minViews, 'to', maxViews);
+
 	// Add nodes
 	Object.keys(videoData).forEach(videoId => {
 		const video = videoData[videoId];
+		const views = parseInt(video.views) || 1;
+		const normalizedSize = views / maxViews;
+
 		elements.push({
 			data: {
 				id: videoId,
 				label: videoId,
-				views: video.views,
+				views: views,
 				paths: video.paths,
 				probability: calculateProbability(video.paths),
 				ending: video.ending,
 				children: video.children,
 				parents: video.parents,
-				childPath: video.child_path
+				childPath: video.child_path,
+				normalizedSize: normalizedSize
 			}
 		});
 	});
@@ -79,9 +94,12 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				style: {
 					'background-color': '#667eea',
 					'label': 'data(label)',
-					'width': ele => Math.max(30, Math.log(ele.data('views') + 1) * 8),
-					'height': ele => Math.max(30, Math.log(ele.data('views') + 1) * 8),
-					'font-size': '10px',
+					// Size nodes with square root scaling for more visible differences
+					// Range: 20px to 200px
+					'width': ele => 20 + (Math.sqrt(ele.data('normalizedSize')) * 180),
+					'height': ele => 20 + (Math.sqrt(ele.data('normalizedSize')) * 180),
+					// Scale font size with node size
+					'font-size': ele => Math.max(7, 8 + (Math.sqrt(ele.data('normalizedSize')) * 14)),
 					'text-valign': 'center',
 					'text-halign': 'center',
 					'color': '#333',
