@@ -37,13 +37,18 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 		maxViews = Math.max(maxViews, views);
 	});
 
-	console.log('View count range:', minViews, 'to', maxViews);
-
 	// Add nodes
 	Object.keys(videoData).forEach(videoId => {
 		const video = videoData[videoId];
 		const views = parseInt(video.views) || 1;
 		const normalizedSize = views / maxViews;
+
+		// Check if arrays exist and have length
+		const hasParents = Array.isArray(video.parents) && video.parents.length > 0;
+		const hasChildren = Array.isArray(video.children) && video.children.length > 0;
+
+		const isStart = !hasParents; // No parents = start node
+		const isEnd = !hasChildren;   // No children = end node
 
 		elements.push({
 			data: {
@@ -56,7 +61,9 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				children: video.children,
 				parents: video.parents,
 				childPath: video.child_path,
-				normalizedSize: normalizedSize
+				normalizedSize: normalizedSize,
+				isStart: isStart,
+				isEnd: isEnd
 			}
 		});
 	});
@@ -92,7 +99,7 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			{
 				selector: 'node',
 				style: {
-					'background-color': '#667eea',
+					'background-color': '#9ca3af', // Grey/neutral for middle nodes
 					'label': 'data(label)',
 					// Size nodes with square root scaling for more visible differences
 					// Range: 20px to 200px
@@ -111,11 +118,19 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				}
 			},
 			{
-				selector: 'node[ending = true]',
+				selector: 'node[?isEnd]',
 				style: {
-					'background-color': '#fbbf24',
+					'background-color': '#fbbf24', // Gold for endings
 					'border-width': 4,
 					'border-color': '#f59e0b'
+				}
+			},
+			{
+				selector: 'node[?isStart]',
+				style: {
+					'background-color': '#22c55e', // Green for start
+					'border-width': 4,
+					'border-color': '#16a34a'
 				}
 			},
 			{
