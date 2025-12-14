@@ -127,11 +127,19 @@ html, body {
 	border-bottom: 1px solid #dee2e6;
 	font-size: 14px;
 	color: #666;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 #breadcrumb span {
 	color: #667eea;
 	font-weight: 600;
+}
+
+#last-updated {
+	font-style: italic;
+	opacity: 0.8;
 }
 
 .legend {

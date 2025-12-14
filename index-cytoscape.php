@@ -153,13 +153,29 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="header">
 		<h1>CGP Grey: Rock Paper Scissors</h1>
 		<h2>Interactive Network Visualization</h2>
-		<p style="margin: 5px 0; font-size: 0.9em; opacity: 0.9;"><i>Last Updated: <?=$date_last_query->format("y/m/d - H:i")?></i></p>
 	</div>
 
 	<div id="breadcrumb">
-		<span><?=count(array_keys($GLOBALS["data"]))?></span> videos |
-		<span><?=number_format($total_views)?></span> total views |
-		Click any node to explore
+		<div>
+			<span><?=count(array_keys($GLOBALS["data"]))?></span> videos |
+			<span><?=number_format($total_views)?></span> total views |
+			Click any node to explore
+		</div>
+		<div id="last-updated">
+			Updated <?php
+				$now = new DateTime();
+				$diff = $date_last_query->diff($now);
+				if ($diff->days > 0) {
+					echo $diff->days . ' day' . ($diff->days > 1 ? 's' : '') . ' ago';
+				} elseif ($diff->h > 0) {
+					echo $diff->h . ' hour' . ($diff->h > 1 ? 's' : '') . ' ago';
+				} elseif ($diff->i > 0) {
+					echo $diff->i . ' minute' . ($diff->i > 1 ? 's' : '') . ' ago';
+				} else {
+					echo 'Just now';
+				}
+			?>
+		</div>
 	</div>
 
 	<div id="controls">
