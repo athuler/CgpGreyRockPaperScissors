@@ -53,9 +53,10 @@ $date_last_query = unserialize(file_get_contents($last_query_file));
 //Check time since last query
 $time_difference_minutes = $date_last_query->diff(new DateTime)->i;
 
-if($time_difference_minutes >= $CACHE_DURATION_MINUTES) {
-	$date_last_query = new DateTime;
+$curl_error = null;
+$curl_success_message = null;
 
+if($time_difference_minutes >= $CACHE_DURATION_MINUTES) {
 	// Process videos in batches of 50
 	$all_ids = array_chunk(
 				array_keys($GLOBALS["data"]),
@@ -64,8 +65,9 @@ if($time_difference_minutes >= $CACHE_DURATION_MINUTES) {
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 	$all_responses = [];
-	foreach($all_ids as $id_list) {
+	$curl_success = true;
 
+	foreach($all_ids as $id_list) {
 		curl_setopt_array($curl, [
 			CURLOPT_URL => "https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=" . implode(",", $id_list) . "&key=" . $GLOBALS["API_KEY"],
 			CURLOPT_RETURNTRANSFER => true,
@@ -76,15 +78,38 @@ if($time_difference_minutes >= $CACHE_DURATION_MINUTES) {
 			CURLOPT_CUSTOMREQUEST => "GET",
 			CURLOPT_HTTPHEADER => [],
 		]);
-		$response = json_decode(curl_exec($curl), true);
-		if (array_key_exists("items", $response)){
-			$all_responses = array_merge($all_responses,$response["items"]);
+
+		$result = curl_exec($curl);
+
+		// Check for cURL errors
+		if($result === false) {
+			$curl_error = curl_error($curl);
+			$curl_success = false;
+			break;
 		}
+
+		$response = json_decode($result, true);
+
+		// Check for JSON decode errors or API errors
+		if($response === null || !array_key_exists("items", $response)) {
+			$curl_error = "API returned invalid response or error";
+			$curl_success = false;
+			break;
+		}
+
+		$all_responses = array_merge($all_responses, $response["items"]);
 	}
-	// Cache Video Data
-	file_put_contents($views_cache_file, serialize($all_responses));
-	// Update Time file
-	file_put_contents($last_query_file, serialize(new DateTime()));
+
+	// Only update cache if API call was successful
+	if($curl_success && count($all_responses) > 0) {
+		$date_last_query = new DateTime();
+		file_put_contents($views_cache_file, serialize($all_responses));
+		file_put_contents($last_query_file, serialize($date_last_query));
+		$curl_success_message = "Successfully fetched data from YouTube API.";
+	} else {
+		// Fall back to cached data
+		$all_responses = unserialize(file_get_contents($views_cache_file));
+	}
 } else {
 	// Get Data from file
 	$all_responses = unserialize(file_get_contents($views_cache_file));
@@ -191,6 +216,18 @@ foreach($GLOBALS["data"] as $vid){
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 	<script src="cytoscape-graph.js"></script>
+
+	<?php if($curl_error !== null): ?>
+	<script>
+		console.warn('YouTube API fetch failed: <?=addslashes($curl_error)?>. Using cached data instead.');
+	</script>
+	<?php endif; ?>
+
+	<?php if($curl_success_message !== null): ?>
+	<script>
+		console.log('<?=addslashes($curl_success_message)?>');
+	</script>
+	<?php endif; ?>
 
 	<script>
 		// Prepare graph data from PHP
