@@ -1,7 +1,7 @@
 on:
   push:
-    branches: [ main ]
-name: Send to production
+    branches: [ staging ]
+name: Send to staging
 jobs:
   web-deploy:
     name: Deploy
@@ -16,3 +16,4 @@ jobs:
         server: ${{ secrets.ftp_server }}
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
+        server-dir: ./staging/
