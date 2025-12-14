@@ -37,6 +37,29 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 		maxViews = Math.max(maxViews, views);
 	});
 
+	// Calculate depth for each node (maximum distance from root)
+	const depths = {};
+	const calculateDepth = (nodeId, visited = new Set()) => {
+		if (depths[nodeId] !== undefined) return depths[nodeId];
+		if (visited.has(nodeId)) return 0; // Prevent cycles
+
+		visited.add(nodeId);
+		const video = videoData[nodeId];
+
+		if (!Array.isArray(video.parents) || video.parents.length === 0) {
+			depths[nodeId] = 0; // Root node
+		} else {
+			// Depth is 1 + max depth of any parent
+			const parentDepths = video.parents.map(parentId => calculateDepth(parentId, new Set(visited)));
+			depths[nodeId] = 1 + Math.max(...parentDepths);
+		}
+
+		return depths[nodeId];
+	};
+
+	// Calculate depths for all nodes
+	Object.keys(videoData).forEach(videoId => calculateDepth(videoId));
+
 	// Add nodes
 	Object.keys(videoData).forEach(videoId => {
 		const video = videoData[videoId];
@@ -63,7 +86,8 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				childPath: video.child_path,
 				normalizedSize: normalizedSize,
 				isStart: isStart,
-				isEnd: isEnd
+				isEnd: isEnd,
+				depth: depths[videoId] // Add depth for proper layering
 			}
 		});
 	});
@@ -183,7 +207,10 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			roots: `#${firstVideoId}`,
 			spacingFactor: 1.5,
 			avoidOverlap: true,
-			nodeDimensionsIncludeLabels: true
+			nodeDimensionsIncludeLabels: true,
+			maximal: true,
+			circle: false,
+			depthSort: (a, b) => a.data('depth') - b.data('depth')
 		},
 		minZoom: 0.1,
 		maxZoom: 3
@@ -342,6 +369,9 @@ function changeLayout(layoutName, cy, firstVideoId) {
 	if (layoutName === 'breadthfirst') {
 		layoutOptions.directed = true;
 		layoutOptions.roots = `#${firstVideoId}`;
+		layoutOptions.maximal = true;
+		layoutOptions.circle = false;
+		layoutOptions.depthSort = (a, b) => a.data('depth') - b.data('depth');
 	} else if (layoutName === 'cose') {
 		layoutOptions.nodeRepulsion = 8000;
 		layoutOptions.idealEdgeLength = 100;
