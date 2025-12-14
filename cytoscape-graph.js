@@ -178,7 +178,6 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			avoidOverlap: true,
 			nodeDimensionsIncludeLabels: true
 		},
-		wheelSensitivity: 0.2,
 		minZoom: 0.1,
 		maxZoom: 3
 	});
