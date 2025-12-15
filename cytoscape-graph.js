@@ -23,6 +23,25 @@ function calculateProbability(paths) {
 	return totalProb;
 }
 
+// Format percentage with at least 2 decimals, but add more if needed to show significant digits
+function formatPercentage(value) {
+	const percentage = value * 100;
+
+	// If >= 0.01%, use 2 decimal places
+	if (percentage >= 0.01) {
+		return percentage.toFixed(2);
+	}
+
+	// For smaller values, find the first significant digit
+	// Use exponential notation to count leading zeros
+	if (percentage === 0) return '0.00';
+
+	const exponent = Math.floor(Math.log10(percentage));
+	const digitsNeeded = Math.max(2, Math.abs(exponent) + 1);
+
+	return percentage.toFixed(digitsNeeded);
+}
+
 // Initialize graph
 function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 	// Convert to Cytoscape format
@@ -265,11 +284,11 @@ function showInfoPanel(node, firstVideoViews) {
 		</div>
 		<div class="stat-row">
 			<span class="stat-label">% of Start:</span>
-			<span class="stat-value">${((data.views / firstVideoViews) * 100).toFixed(2)}%</span>
+			<span class="stat-value">${formatPercentage(data.views / firstVideoViews)}%</span>
 		</div>
 		<div class="stat-row">
 			<span class="stat-label">Theoretical %:</span>
-			<span class="stat-value">${(data.probability * 100).toFixed(2)}%</span>
+			<span class="stat-value">${formatPercentage(data.probability)}%</span>
 		</div>
 		<div class="stat-row">
 			<span class="stat-label">Odds:</span>
