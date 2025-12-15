@@ -291,7 +291,11 @@ function showInfoPanel(node, firstVideoViews) {
 			<span class="stat-value">${formatPercentage(data.probability)}%</span>
 		</div>
 		<div class="stat-row">
-			<span class="stat-label">Odds:</span>
+			<span class="stat-label">Real Odds:</span>
+			<span class="stat-value">1 in ${Number((firstVideoViews / data.views).toFixed(0)).toLocaleString()}</span>
+		</div>
+		<div class="stat-row">
+			<span class="stat-label">Theoretical Odds:</span>
 			<span class="stat-value">1 in ${Number((1/data.probability).toFixed(0)).toLocaleString()}</span>
 		</div>
 	`;
