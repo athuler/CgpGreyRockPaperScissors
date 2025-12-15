@@ -261,7 +261,15 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 }
 
 // Node interaction functions
+let isUpdatingInfoPanel = false;
+
 function showInfoPanel(node, firstVideoViews) {
+	// Prevent recursion
+	if (isUpdatingInfoPanel) {
+		return;
+	}
+	isUpdatingInfoPanel = true;
+
 	const data = node.data();
 	const infoPanel = document.getElementById('info-panel');
 	const infoContent = document.getElementById('info-content');
@@ -357,6 +365,11 @@ function showInfoPanel(node, firstVideoViews) {
 
 	infoContent.innerHTML = html;
 	infoPanel.classList.add('show');
+
+	// Reset flag after a short delay to allow the DOM to settle
+	setTimeout(() => {
+		isUpdatingInfoPanel = false;
+	}, 0);
 }
 
 function closeInfoPanel() {

@@ -259,6 +259,9 @@ foreach($GLOBALS["data"] as $vid){
 		const cy = initializeGraph(videoData, firstVideoId, firstVideoViews);
 		window.cy = cy;
 
+		// Store reference to the original navigateToNode function
+		const navigateToNodeOriginal = navigateToNode;
+
 		// Node click handler
 		cy.on('tap', 'node', function(evt) {
 			const node = evt.target;
@@ -276,7 +279,7 @@ foreach($GLOBALS["data"] as $vid){
 
 		// Global function for navigating to nodes (called from info panel)
 		window.navigateToNode = function(nodeId) {
-			navigateToNode(nodeId, cy);
+			navigateToNodeOriginal(nodeId, cy);
 		};
 
 		// Initial center on start node
