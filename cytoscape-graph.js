@@ -38,27 +38,49 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 	});
 
 	// Calculate depth for each node (maximum distance from root)
+	// Use iterative approach to handle multiple parents correctly
 	const depths = {};
-	const calculateDepth = (nodeId, visited = new Set()) => {
-		if (depths[nodeId] !== undefined) return depths[nodeId];
-		if (visited.has(nodeId)) return 0; // Prevent cycles
+	depths[firstVideoId] = 0;
 
-		visited.add(nodeId);
-		const video = videoData[nodeId];
-
-		if (!Array.isArray(video.parents) || video.parents.length === 0) {
-			depths[nodeId] = 0; // Root node
-		} else {
-			// Depth is 1 + max depth of any parent
-			const parentDepths = video.parents.map(parentId => calculateDepth(parentId, new Set(visited)));
-			depths[nodeId] = 1 + Math.max(...parentDepths);
+	// Initialize all nodes to infinity except root
+	Object.keys(videoData).forEach(videoId => {
+		if (videoId !== firstVideoId) {
+			depths[videoId] = -1;
 		}
+	});
 
-		return depths[nodeId];
-	};
+	// Iteratively update depths until no changes occur
+	let changed = true;
+	let iterations = 0;
+	const maxIterations = 100; // Safety limit
 
-	// Calculate depths for all nodes
-	Object.keys(videoData).forEach(videoId => calculateDepth(videoId));
+	while (changed && iterations < maxIterations) {
+		changed = false;
+		iterations++;
+
+		Object.keys(videoData).forEach(videoId => {
+			const video = videoData[videoId];
+			if (!video || !Array.isArray(video.children)) return;
+
+			const currentDepth = depths[videoId];
+			if (currentDepth === -1) return; // Parent not yet reached
+
+			video.children.forEach(childId => {
+				const newDepth = currentDepth + 1;
+				if (depths[childId] === -1 || depths[childId] < newDepth) {
+					depths[childId] = newDepth;
+					changed = true;
+				}
+			});
+		});
+	}
+
+	// Set any unreached nodes to 0 (shouldn't happen in a connected graph)
+	Object.keys(videoData).forEach(videoId => {
+		if (depths[videoId] === -1) {
+			depths[videoId] = 0;
+		}
+	});
 
 	// Add nodes
 	Object.keys(videoData).forEach(videoId => {
