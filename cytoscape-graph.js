@@ -250,7 +250,15 @@ function showInfoPanel(node, firstVideoViews) {
 
 	infoTitle.textContent = data.id;
 
-	let html = `
+	let html = '';
+	
+	html += `<div style="margin-top: 15px;">
+		<a href="https://youtube.com/watch?v=${data.id}" target="_blank" class="control-btn" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
+			<i class="bi bi-play-circle"></i> Watch on YouTube
+		</a>
+	</div>`;
+
+	html += `
 		<div class="stat-row">
 			<span class="stat-label">Views:</span>
 			<span class="stat-value">${Number(data.views).toLocaleString()}</span>
@@ -300,11 +308,7 @@ function showInfoPanel(node, firstVideoViews) {
 		});
 	}
 
-	html += `<div style="margin-top: 15px;">
-		<a href="https://youtube.com/watch?v=${data.id}" target="_blank" class="control-btn" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
-			<i class="bi bi-play-circle"></i> Watch on YouTube
-		</a>
-	</div>`;
+	
 
 	if (data.paths && data.paths.length > 0) {
 		html += `<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Paths (${data.paths.length}):</h4>`;
