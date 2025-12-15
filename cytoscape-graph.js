@@ -340,12 +340,9 @@ function showInfoPanel(node, firstVideoViews) {
 	if (data.paths && data.paths.length > 0) {
 		html += `<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Paths (${data.paths.length}):</h4>`;
 		html += '<div style="max-height: 150px; overflow-y: auto; font-size: 11px; font-family: monospace; background: #f8f9fa; padding: 10px; border-radius: 4px;">';
-		data.paths.slice(0, 20).forEach(path => {
+		data.paths.forEach(path => {
 			html += `${path}<br/>`;
 		});
-		if (data.paths.length > 20) {
-			html += `<i>... and ${data.paths.length - 20} more</i>`;
-		}
 		html += '</div>';
 	}
 
