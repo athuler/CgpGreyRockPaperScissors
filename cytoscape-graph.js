@@ -305,7 +305,7 @@ function showInfoPanel(node, firstVideoViews) {
 	}
 
 	if (data.children && data.children.length > 0) {
-		html += '<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Children:</h4>';
+		html += `<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Children (${data.children.length}):</h4>`;
 		data.children.forEach((childId, idx) => {
 			const edgeType = data.childPath[idx];
 			let label = edgeType;
@@ -327,7 +327,7 @@ function showInfoPanel(node, firstVideoViews) {
 	}
 
 	if (data.parents && data.parents.length > 0) {
-		html += '<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Parents:</h4>';
+		html += `<h4 style="margin-top: 15px; color: #667eea; font-size: 14px;">Parents (${data.parents.length}):</h4>`;
 		data.parents.forEach(parentId => {
 			html += `<div class="stat-row" style="cursor: pointer;" onclick="navigateToNode('${parentId}')">
 				<span class="stat-value" style="color: #667eea;">← ${parentId}</span>
