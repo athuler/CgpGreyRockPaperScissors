@@ -270,8 +270,17 @@ function showInfoPanel(node, firstVideoViews) {
 	infoTitle.textContent = data.id;
 
 	let html = '';
-	
+
 	html += `<div style="margin-top: 15px;">
+		<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 10px;">
+			<iframe
+				src="https://www.youtube-nocookie.com/embed/${data.id}"
+				style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen>
+			</iframe>
+		</div>
 		<a href="https://youtube.com/watch?v=${data.id}" target="_blank" class="control-btn" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
 			<i class="bi bi-play-circle"></i> Watch on YouTube
 		</a>
