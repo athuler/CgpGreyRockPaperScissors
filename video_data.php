@@ -27,7 +27,8 @@ class video {
 	}
 	
 	function add_path($new_paths) {
-		$this->paths=array_merge($this->paths, $new_paths);
+		$this->paths = array_unique(array_merge($this->paths, $new_paths));
+		sort($this->paths);
 	}
 	
 	function add_parent($new_parent) {
@@ -127,7 +128,7 @@ $GLOBALS["data"]["SeX6WzVRZ4Y"] = new video(
 $GLOBALS["data"]["j-jqX7AdQT8"] = new video(
 	["LvcxrEP2U-o", "oOufgnObuhQ"]);
 $GLOBALS["data"]["LvcxrEP2U-o"] = new video(
-	["dU22iL1ZsWQ"], child_path:["-"]);
+	["dU22iL1ZsWQ"], child_path:["C"]);
 $GLOBALS["data"]["dU22iL1ZsWQ"] = new video(
 	[], ending: True); // END
 $GLOBALS["data"]["j8fHcBHeKwk"] = new video(
@@ -231,9 +232,9 @@ $GLOBALS["data"]["Q5kgEN3rb_c"] = new video(
 $GLOBALS["data"]["pteggMrRnk4"] = new video(
 	["D8iP2qINaSE","hhDh6_RD7tU","87zN8iWo5pU"],child_path:["R","P","S"]);
 $GLOBALS["data"]["D8iP2qINaSE"] = new video(
-	["dU22iL1ZsWQ"], child_path:["-"]);
+	["dU22iL1ZsWQ"], child_path:["C"]);
 $GLOBALS["data"]["hhDh6_RD7tU"] = new video(
-	["dU22iL1ZsWQ"], child_path:["-"]);
+	["dU22iL1ZsWQ"], child_path:["C"]);
 $GLOBALS["data"]["87zN8iWo5pU"] = new video(
 	["s3rUNS68AKs","K1kVsxsnYyc"], child_path:["E","B"]);
 $GLOBALS["data"]["s3rUNS68AKs"] = new video(

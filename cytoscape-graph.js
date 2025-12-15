@@ -335,6 +335,7 @@ function showInfoPanel(node, firstVideoViews) {
 				case 'R': label = 'Rock'; break;
 				case 'P': label = 'Paper'; break;
 				case 'S': label = 'Scissors'; break;
+				case 'C': label = 'Continue'; break;
 			}
 			html += `<div class="stat-row" style="cursor: pointer;" onclick="navigateToNode('${childId}')">
 				<span class="stat-label">${label}:</span>

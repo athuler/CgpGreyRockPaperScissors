@@ -30,7 +30,9 @@ foreach($GLOBALS["data"] as $video_id => $video) {
 				$current_path . $video->child_path[$j]
 			);
 		}
-		$GLOBALS["data"][$video->children[$j]]->add_path(array_unique($new_paths));
+		$new_paths = array_unique($new_paths);
+		sort($new_paths);
+		$GLOBALS["data"][$video->children[$j]]->add_path($new_paths);
 	}
 }
 
