@@ -271,6 +271,10 @@ function showInfoPanel(node, firstVideoViews) {
 			<span class="stat-label">Theoretical %:</span>
 			<span class="stat-value">${(data.probability * 100).toFixed(2)}%</span>
 		</div>
+		<div class="stat-row">
+			<span class="stat-label">Odds:</span>
+			<span class="stat-value">1 in ${Number((1/data.probability).toFixed(0)).toLocaleString()}</span>
+		</div>
 	`;
 
 	if (data.ending) {
