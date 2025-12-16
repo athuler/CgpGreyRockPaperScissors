@@ -161,7 +161,7 @@ html, body {
 	border-radius: 2px;
 }
 
-/* Hide "Click any node to explore" text on smaller screens */
+
 @media (max-width: 600px) {
 	.hide-on-small {
 		display: none;
@@ -177,6 +177,16 @@ html, body {
 
 	#header .footer {
 		font-size: 0.9em;
+	}
+
+	/* Hide button text, keep icons only */
+	.btn-text {
+		display: none;
+	}
+
+	/* Center buttons and legend when they wrap */
+	#controls {
+		justify-content: center;
 	}
 }
 
