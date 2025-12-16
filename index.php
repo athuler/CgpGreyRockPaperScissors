@@ -114,9 +114,9 @@ foreach($GLOBALS["data"] as $vid){
 			<button class="control-btn" onclick="changeLayout('cose', window.cy, window.firstVideoId)">
 				<i class="bi bi-node-plus"></i><span class="btn-text"> Bubble Layout</span>
 			</button>
-			<a href="download.php"><button class="control-btn">
-				<i class="bi bi-download"></i><span class="btn-text"> Download</span></button>
-			</a>
+			<button class="control-btn" onclick="location.href='download.php'">
+				<i class="bi bi-download"></i><span class="btn-text"> Download</span>
+			</button>
 			<!-- <button class="control-btn" onclick="changeLayout('circle', window.cy, window.firstVideoId)">Circle Layout</button> -->
 			<!-- <button class="control-btn" onclick="resetView(window.cy, window.firstVideoId)"><i class="bi bi-arrows-angle-contract"></i> Reset View</button> -->
 			<!-- <button class="control-btn" onclick="fitToScreen(window.cy)"><i class="bi bi-fullscreen"></i> Fit All</button> -->

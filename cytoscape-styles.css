@@ -188,6 +188,11 @@ html, body {
 	#controls {
 		justify-content: center;
 	}
+
+	/* Make icon buttons larger on mobile */
+	.control-btn {
+		font-size: 20px;
+	}
 }
 
 #header a {
