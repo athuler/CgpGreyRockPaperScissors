@@ -67,7 +67,7 @@ foreach($GLOBALS["data"] as $vid){
 <body>
 	<div id="header">
 		<h1>CGP Grey: Rock Paper Scissors</h1>
-		<h2>Interactive Network Visualization</h2>
+		<h2>Interactive Game Visualization</h2>
 		<div class="footer">
 			<p>Made by <a href="https://andreithuler.com" target="_blank">Andrei Thüler</a> |
 			<!-- <a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="_blank">Report Bug</a> | -->
