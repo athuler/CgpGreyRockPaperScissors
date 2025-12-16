@@ -60,6 +60,15 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="header">
 		<h1>CGP Grey: Rock Paper Scissors</h1>
 		<h2>Interactive Network Visualization</h2>
+		<div>
+			<p>Made by <a href="https://andreithuler.com" target="_blank">Andrei Thüler</a> |
+			<!-- <a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="_blank">Report Bug</a> | -->
+			<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="_blank">Source</a> |
+			<a href="https://github.com/sponsors/athuler" target="_blank">
+				<img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" style="vertical-align: middle;"/>
+			</a>
+			</p>
+		</div>
 	</div>
 
 	<div id="breadcrumb">
@@ -124,16 +133,6 @@ foreach($GLOBALS["data"] as $vid){
 		<span class="close-btn" onclick="closeInfoPanel()">&times;</span>
 		<h3 id="info-video-id">Video Info</h3>
 		<div id="info-content"></div>
-	</div>
-
-	<div id="footer">
-		<p>Made by <a href="https://github.com/athuler" target="_blank">athuler</a> |
-		<a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="_blank">Report Bug</a> |
-		<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="_blank">Source</a> |
-		<a href="https://github.com/sponsors/athuler" target="_blank">
-			<img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" style="vertical-align: middle;"/>
-		</a>
-		</p>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
