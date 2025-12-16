@@ -11,30 +11,8 @@ require_once("secrets.php");
 require_once("video_data.php");
 $first_vid = "PmWQmZXYd74";
 
-
-###### Build Paths & Parents #####
-foreach($GLOBALS["data"] as $video_id => $video) {
-	$num_children = count($video->children);
-	
-	for($j = 0; $j < $num_children; $j ++) {
-		
-		
-		// Add Parent
-		$GLOBALS["data"][$video->children[$j]]->add_parent($video_id);
-		
-		// Add New Path(s)
-		$new_paths = [];
-		foreach($video->paths as $current_path) {
-			array_push($new_paths,
-				$current_path . $video->child_path[$j]
-			);
-		}
-		$new_paths = array_unique($new_paths);
-		sort($new_paths);
-		$GLOBALS["data"][$video->children[$j]]->add_path($new_paths);
-		
-	}
-}
+###### Build Parents and Paths #####
+build_parents_and_paths($first_vid);
 
 
 ###### Fetch Video Views ######

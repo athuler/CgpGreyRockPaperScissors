@@ -14,77 +14,8 @@ require_once("secrets.php");
 require_once("video_data.php");
 $first_vid = "PmWQmZXYd74";
 
-
-###### Build Parents #####
-foreach($GLOBALS["data"] as $video_id => $video) {
-	$video = $GLOBALS["data"][$video_id];
-	$num_children = count($video->children);
-
-	// For each child of this video
-	for($j = 0; $j < $num_children; $j ++) {
-		$child_id = $video->children[$j];
-
-		// Add Video as Parent to its children
-		$GLOBALS["data"][$child_id]->add_parent($video_id);
-	}
-}
-
-###### Build Paths #####
-// Use BFS to process nodes in topological order (parents before children)
-$queue = [$first_vid];
-$processed = [];
-
-while (count($queue) > 0) {
-	$video_id = array_shift($queue);
-
-	// Skip if already processed
-	if (in_array($video_id, $processed)) {
-		continue;
-	}
-
-	// Check if parents are processed
-	if (count($GLOBALS["data"][$video_id]->parents) > 0) {
-		$all_parents_processed = true;
-		foreach ($GLOBALS["data"][$video_id]->parents as $parent_id) {
-			if (!in_array($parent_id, $processed)) {
-				$all_parents_processed = false;
-				break;
-			}
-		}
-		if (!$all_parents_processed) {
-			// Re-enqueue for later processing
-			array_push($queue, $video_id);
-			continue;
-		}
-	}
-
-	// Process current video
-	$video = $GLOBALS["data"][$video_id];
-	$num_children = count($video->children);
-
-	for($j = 0; $j < $num_children; $j ++) {
-		$child_id = $video->children[$j];
-
-		// Add New Path(s)
-		$new_paths = [];
-		foreach($video->paths as $current_path) {
-			array_push($new_paths,
-				$current_path . $video->child_path[$j]
-			);
-		}
-		$new_paths = array_unique($new_paths);
-		sort($new_paths);
-		$GLOBALS["data"][$child_id]->add_path($new_paths);
-
-		// Add child to queue for processing
-		if (!in_array($child_id, $queue) && !in_array($child_id, $processed)) {
-			array_push($queue, $child_id);
-		}
-	}
-
-	// Mark this node as processed
-	array_push($processed, $video_id);
-}
+###### Build Parents and Paths #####
+build_parents_and_paths($first_vid);
 
 
 ###### Fetch Video Views ######
