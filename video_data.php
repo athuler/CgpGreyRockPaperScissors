@@ -1,4 +1,5 @@
 <?php
+require("secrets.php");
 
 class video {
 	public $paths = [];

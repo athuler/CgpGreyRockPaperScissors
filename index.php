@@ -9,7 +9,6 @@ require_once("secrets.php");
 
 ###### Create Video Tree #####
 require_once("video_data.php");
-$first_vid = "PmWQmZXYd74";
 
 ###### Build Parents and Paths #####
 build_parents_and_paths($first_vid);
@@ -49,41 +48,39 @@ $date_last_query = $view_result['date_last_query'];
 			<h1 id="title">CGP Grey: Rock Paper Scissors</h1>
 			<h2>A Visual and Statistical Overview</h2>
 			<p><i>Last Updated: <?=$date_last_query->format("y/m/d - H:i")?></i></p>
-			<br/><br/>
-			
-			<!-- Visual Controls -->
-			<h3>Controls:</h3>
-			<input type="button" class="btn btn-primary" value="Show/Hide Children & Parents" onclick="toggle_family()"/>
-			<input type="button" class="btn btn-primary" value="Show/Hide All Paths" onclick="toggle_paths()"/>
 			
 			<!-- Statistics -->
-			<br/><br/><br/>
-			<h3>Some Statistics:</h3><p>
-			<b><?=count(array_keys($GLOBALS["data"]))?></b> videos<br/>
-			<b><?php
-				// Compute total video views
-				$total_views = 0;
-				foreach($GLOBALS["data"] as $vid){
-					$total_views += $vid->views;
-				}
-				echo(number_format($total_views));
-			?></b> total views
+			
+			<p>
+				<b><?=count(array_keys($GLOBALS["data"]))?></b> videos<br/>
+				<b><?php
+					// Compute total video views
+					$total_views = 0;
+					foreach($GLOBALS["data"] as $vid){
+						$total_views += $vid->views;
+					}
+					echo(number_format($total_views));
+				?></b> total views
 			</p>
 			
 			<!-- Add Tip on Using Arrows -->
-			<p><i>Tip: Use <i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i> and <i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i> to navigate more easily!</i></p>
+			<div class="row">
+				<p><i>Tip: Use <a href="#PmWQmZXYd74"><i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i></a> and <a href="#PmWQmZXYd74"><i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i></a> to navigate more easily!</i></p>
+			</div>
 			
-			<br/><br/>
+			<!-- Visual Controls -->
+			<input type="button" class="btn btn-secondary" value="Show/Hide Children & Parents" onclick="toggle_family()"/>
+			<input type="button" class="btn btn-secondary" value="Show/Hide All Paths" onclick="toggle_paths()"/>
+			
 			
 			<!-- About -->
-			<h3>About this Project:</h3>
+			<br/><br/>
 			<p>Made by <a href="https://github.com/athuler" target="__blank">athuler</a> with much blood, sweats, and so many tears.</p>
-			<p>Bug? Something wrong? <a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="__blank">Report it!</a></p>
-			
-			<div class="row justify-content-center">
-			<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="__blank" class="col-auto">Source</a>
-			
-			<a href="https://github.com/sponsors/athuler" target="__blank" class="col-auto"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86"/></a>
+			<div>
+				<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="__blank" class="col-auto">Source</a> |
+				<a href="download.php">Download Data</a> |
+				<a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="__blank">Report a Bug</a> |
+				<a href="https://github.com/sponsors/athuler" target="__blank" class="col-auto"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86"/></a>
 			</div>
 		</div>
 		
