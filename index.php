@@ -62,7 +62,7 @@ foreach($GLOBALS["data"] as $vid){
 		gtag('config', 'G-J4H5B1ENEE');
 	</script>
 
-	<script src="cytoscape.min.js"></script>
+	<script src="js/cytoscape.min.js"></script>
 </head>
 <body>
 	<div id="header">
