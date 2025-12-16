@@ -132,7 +132,7 @@ html, body {
 	align-items: center;
 }
 
-#breadcrumb span {
+#breadcrumb span:not(.hide-on-small) {
 	color: #667eea;
 	font-weight: 600;
 }
@@ -159,4 +159,15 @@ html, body {
 	width: 20px;
 	height: 3px;
 	border-radius: 2px;
+}
+
+/* Hide "Click any node to explore" text on smaller screens */
+@media (max-width: 600px) {
+	.hide-on-small {
+		display: none;
+	}
+}
+
+#header a {
+	color:white;
 }
