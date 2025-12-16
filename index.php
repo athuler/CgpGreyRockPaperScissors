@@ -10,6 +10,13 @@ require_once("secrets.php");
 ###### Create Video Tree #####
 require_once("video_data.php");
 
+###### Build Parents and Paths #####
+build_parents_and_paths($first_vid);
+
+###### Fetch Video Views ######
+$view_result = fetch_video_views(1); // Cache for 1 minute
+$date_last_query = $view_result['date_last_query'];
+
 
 ?>
 
@@ -32,9 +39,10 @@ require_once("video_data.php");
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	
 </head>
-<!--<body class="text-center container-fluid overflow-x-scroll">-->
-<body class="text-center overflow-x-auto">
-	<div class="row justify-content-center">
+<body class="text-center container-fluid overflow-x-scroll">
+	
+	<!-- Top Row -->
+	<div class="row justify-content-center text-center">
 		<div class="col-auto ">
 			<!-- Title -->
 			<h1 id="title">CGP Grey: Rock Paper Scissors</h1>
@@ -78,7 +86,9 @@ require_once("video_data.php");
 		
 	</div>
 	
-	<!-- Connectors Between Blocks -->
+	<br/>
+	
+	<!-- Connectors -->
 	<div id="svgContainer" style="margin: 0px 0px;">
 		<svg id="svg1" width="0" height="0" >
 			<?php
@@ -99,7 +109,7 @@ require_once("video_data.php");
 					d="M0 0"		 
 					stroke="<?=$color?>" 
 					fill="none"
-					stroke-width="<?=$video->views/$GLOBALS["data"][$first_vid]->views*125?>px";/>
+					stroke-width="<?=$video->views/$GLOBALS["data"][$first_vid]->views*5?>em";/>
 					<?#=round($video->probability()*50)?>
 				<?php
 				}
@@ -112,9 +122,226 @@ require_once("video_data.php");
 	<?php
 	
 ###### Display Video Tree #####
+$GLOBALS["shown_vids"] = [];
+function displayVideo($vid_id) {
+	
+	// Create Video Object From ID
+	$video = $GLOBALS["data"][$vid_id];
+	
+	
+	##### Check Whether to Display Current Video #####
+	$showVideo = True;
+	
+	// Check if it's been displayed before
+	if(in_array($vid_id, $GLOBALS["shown_vids"])) {
+		$showVideo = False;
+	}
+	
+	// Check all its parents have been displayed
+	$parents_list = $video->parents;
+	foreach($video->parents as $parent) {
+		if(in_array($parent, $GLOBALS["shown_vids"])) {
+			$parents_list = array_diff($parents_list, [$parent]);
+		}
+	}
+	if(count($parents_list) != 0){
+		//array_push($next_vids,$vid_id);
+		$showVideo = False;
+	}
+	
+	
+	##### Display Current Video #####
+	if($showVideo) {
+		// Log Video as Shown
+		array_push($GLOBALS["shown_vids"], $vid_id);
+		?>
+		<!-- Display Current Vid -->
+		<div
+			class="video <?php if($video->ending){echo("ending");}?>"
+			id="<?=$vid_id?>"
+		>
+			<div class="row">
+				<p><?php if($video->ending){echo("<b>");} ?><?=$vid_id?><?php if($video->ending){echo("</b>");} ?></p>
+			</div>
+			
+			<!-- Connector for path trace -->
+			<div class="row justify-content-center">
+				<?php for($i=0; $i < count($video->children); $i++) { ?>
+				<div class="col-auto" id="<?=$vid_id?>-<?=$video->child_path[$i]?>">
+					<?php
+					switch($video->child_path[$i]) {
+						case "L":
+							echo "Lose";
+							break;
+						case "W":
+							echo "Win";
+							break;
+						case "E":
+							echo "End";
+							break;
+						case "B":
+							echo "Billion";
+							break;
+						case "T":
+							echo "Trillion";
+							break;
+						case "R":
+							echo "Rock";
+							break;
+						case "P":
+							echo "Paper";
+							break;
+						case "S":
+							echo "Scissors";
+							break;
+						default:
+							echo "Follow";
+					}
+					?><br/>
+					<a href="#<?=$video->children[$i]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i>
+					</a>
+				</div>
+				<?php } ?>
+			</div>
+			<!--<?php if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "L" and
+					$video->child_path[1] == "W"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
+					Lose<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: red;"></i>
+					</a>
+				</div>
+				<div class="col-3" id="<?=$vid_id?>-W" style="">
+					Win<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: green;"></i>	
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "E" and
+					$video->child_path[1] == "B"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-3"	id="<?=$vid_id?>-B">
+					Billion!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 2 and
+					$video->child_path[0] == "E" and
+					$video->child_path[1] == "T"
+					) { ?>
+			<div class="row">
+				<div class="offset-3 col-3"	id="<?=$vid_id?>-E">
+					End<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-3"	id="<?=$vid_id?>-T">
+					Trillion!!<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } else if(
+					count($video->children) == 3 and
+					$video->child_path[0] == "R" and
+					$video->child_path[1] == "P" and
+					$video->child_path[2] == "S"
+					) { ?>
+			<div class="row">
+				<div class="col-4"	id="<?=$vid_id?>-R">
+					Rock<br/>
+					<a href="#<?=$video->children[0]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-4"	id="<?=$vid_id?>-P">
+					Paper<br/>
+					<a href="#<?=$video->children[1]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+				<div class="col-4"	id="<?=$vid_id?>-S">
+					Scissors<br/>
+					<a href="#<?=$video->children[2]?>">
+						<i class="bi bi-caret-down" style="font-size: 35px; color: grey;"></i>
+					</a>
+				</div>
+			</div>
+			<?php } ?>-->
+			<!-- END Connector for path trace -->
+		</div>
+		
+		
+		<!-- Display Children -->
+		<div class="d-flex flex-row flex-nowrap container-fluid justify-content-between">
+			<?php
+			switch (sizeof($video->children)) {
+				case 2:
+					$numCols = 6;
+					break;
+				case 3:
+					$numCols = 4;
+					break;
+				case 4:
+					$numCols = 3;
+					break;
+				default:
+					$numCols = 12;
+			}
+			
+			foreach($video->children as $child) { 
+				
+				?>
+				<div class="col-auto p-<?=$numCols;?>">
+					<?php displayVideo($child); ?>
+				</div>
+			<?php } ?>
+		</div>
+		
+	<?php } else {
+		// Video not being Shown
+		?>
+		<!-- Not showing video yet -->
+		<div style="padding:50px;" class="">
+			
+		</div>
+		<?php
+		}
+	
+} ?> 
+
+<!-- Display Videos -->
+<hr><div class="row flex-nowrap"><div class="col-auto">
+	<?php displayVideo($first_vid); ?>
+</div></div><hr>
+
+
+<!-- LEGACY -->
+<?php 
 $current_vids = [$first_vid];
 $shown_vids = [];
 while($current_vids != []) {
+	break;
 	#echo(implode(", ", $current_vids) . "<br/>");
 	echo("<div class='row flex-row flex-nowrap justify-content-center video-row'>");
 	$next_vids = [];
@@ -144,9 +371,8 @@ while($current_vids != []) {
 			continue;
 		}
 		
+		// Log Video as Shown
 		array_push($just_showed_vids, $vid_id);
-		
-		
 		
 		?>
 		
@@ -191,10 +417,6 @@ while($current_vids != []) {
 					$video->child_path[0] == "L" and
 					$video->child_path[1] == "W"
 					) { ?>
-			
-			
-			
-			
 			<div class="row">
 				<div class="offset-3 col-3" id="<?=$vid_id?>-L" style="">
 					Lose<br/>
@@ -274,6 +496,7 @@ while($current_vids != []) {
 				</div>
 			</div>
 			<?php } ?>
+			<!-- END Connector for path trace -->
 		</div>
 		<?php
 		
@@ -289,7 +512,6 @@ while($current_vids != []) {
 
 	
 	?>
-	
 	
 	
 
@@ -342,7 +564,7 @@ while($current_vids != []) {
 		window.scroll(scrollHorizDist,0); 
 	}
 
-	window.onload = Scrolldown;
+	//window.onload = Scrolldown;
 	
 	function toggle_family() {
 		elements = document.getElementsByClassName("children");
@@ -407,14 +629,15 @@ while($current_vids != []) {
 	div{ opacity: 1; }
 	
 	.video {
-		width:320px;
-		margin-right:0px;
+		/*width:320px;
+		margin-right:0px;*/
 		padding:10px;
 		font-size:16px;
+		padding-bottom: 150px;
 	}
 	
 	body {
-		width:30000px;
+		width:10000px;
 		
 	}
 	
