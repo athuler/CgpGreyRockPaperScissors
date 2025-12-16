@@ -47,7 +47,7 @@ foreach($GLOBALS["data"] as $vid){
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-	<link rel="stylesheet" href="cytoscape-styles.css?v=1">
+	<link rel="stylesheet" href="css/cytoscape-styles.css?v=1">
 
 	<!-- Statsig -->
 	<script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client+session-replay+web-analytics.min.js?apikey=client-nf6ZYQVAcpf5GKM7Yx0JueLYAQGd0zXJC4ww2ElkpGc"></script>
@@ -154,7 +154,7 @@ foreach($GLOBALS["data"] as $vid){
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-	<script src="cytoscape-graph.js?v=1"></script>
+	<script src="js/cytoscape-graph.js?v=1"></script>
 
 	<?php if($curl_error !== null): ?>
 	<script>

@@ -6,7 +6,7 @@ html, body {
 }
 
 #header {
-	background: linear-gradient(135deg, rgba(24, 29, 53, 0.75) 0%, rgba(37, 23, 50, 0.75) 100%), url('media/thumbnail.jpg');
+	background: linear-gradient(135deg, rgba(24, 29, 53, 0.75) 0%, rgba(37, 23, 50, 0.75) 100%), url('../media/thumbnail.jpg');
 	background-size: cover;
 	background-position: center;
 	color: white;
