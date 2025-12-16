@@ -314,6 +314,102 @@ $GLOBALS["data"]["yCwdjfzxI4I"] = new video(
 
 
 /**
+ * Fetch and cache video views from YouTube API
+ * @param int $cache_duration_minutes How long to cache the data (in minutes)
+ * @return array Returns array with keys: 'curl_error', 'curl_success_message', 'date_last_query'
+ */
+function fetch_video_views($cache_duration_minutes = 10) {
+	$last_query_file = "last_query.txt";
+	$views_cache_file = "views_cache.txt";
+
+	if(!file_exists($last_query_file)) {
+		file_put_contents($last_query_file, serialize(new DateTime()));
+	}
+
+	if(!file_exists($views_cache_file)) {
+		file_put_contents($views_cache_file, serialize([]));
+	}
+
+	$date_last_query = unserialize(file_get_contents($last_query_file));
+
+	//Check time since last query
+	$time_difference_minutes = $date_last_query->diff(new DateTime)->i;
+
+	$curl_error = null;
+	$curl_success_message = null;
+
+	if($time_difference_minutes >= $cache_duration_minutes) {
+		// Process videos in batches of 50
+		$all_ids = array_chunk(
+					array_keys($GLOBALS["data"]),
+					50);
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		$all_responses = [];
+		$curl_success = true;
+
+		foreach($all_ids as $id_list) {
+			curl_setopt_array($curl, [
+				CURLOPT_URL => "https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=" . implode(",", $id_list) . "&key=" . $GLOBALS["API_KEY"],
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_HTTPHEADER => [],
+			]);
+
+			$result = curl_exec($curl);
+
+			// Check for cURL errors
+			if($result === false) {
+				$curl_error = curl_error($curl);
+				$curl_success = false;
+				break;
+			}
+
+			$response = json_decode($result, true);
+
+			// Check for JSON decode errors or API errors
+			if($response === null || !array_key_exists("items", $response)) {
+				$curl_error = "API returned invalid response or error";
+				$curl_success = false;
+				break;
+			}
+
+			$all_responses = array_merge($all_responses, $response["items"]);
+		}
+
+		// Only update cache if API call was successful
+		if($curl_success && count($all_responses) > 0) {
+			$date_last_query = new DateTime();
+			file_put_contents($views_cache_file, serialize($all_responses));
+			file_put_contents($last_query_file, serialize($date_last_query));
+			$curl_success_message = "Successfully fetched data from YouTube API.";
+		} else {
+			// Fall back to cached data
+			$all_responses = unserialize(file_get_contents($views_cache_file));
+		}
+	} else {
+		// Get Data from file
+		$all_responses = unserialize(file_get_contents($views_cache_file));
+	}
+
+	// Save video views to tree
+	foreach($all_responses as $vid) {
+		$GLOBALS["data"][$vid["id"]]->set_views($vid["statistics"]["viewCount"]);
+	}
+
+	return [
+		'curl_error' => $curl_error,
+		'curl_success_message' => $curl_success_message,
+		'date_last_query' => $date_last_query
+	];
+}
+
+/**
  * Build parent relationships and paths for all videos using BFS traversal
  * @param string $first_vid The ID of the first video to start from
  */
