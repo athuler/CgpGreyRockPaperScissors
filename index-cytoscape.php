@@ -41,6 +41,10 @@ foreach($GLOBALS["data"] as $vid){
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	<link rel="stylesheet" href="cytoscape-styles.css">
 
+	<!-- Statsig -->
+	<script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client+session-replay+web-analytics.min.js?apikey=client-nf6ZYQVAcpf5GKM7Yx0JueLYAQGd0zXJC4ww2ElkpGc"></script>
+
+
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-J4H5B1ENEE"></script>
 	<script>
