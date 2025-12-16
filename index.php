@@ -105,7 +105,7 @@ foreach($GLOBALS["data"] as $vid){
 
 	<div id="controls">
 		<div class="btn-group">
-			<button class="control-btn" onclick="resetView(window.cy, window.firstVideoId)"><i class="bi bi-arrows-angle-contract"></i> Reset View</button>
+			<!-- <button class="control-btn" onclick="resetView(window.cy, window.firstVideoId)"><i class="bi bi-arrows-angle-contract"></i> Reset View</button> -->
 			<!-- <button class="control-btn" onclick="fitToScreen(window.cy)"><i class="bi bi-fullscreen"></i> Fit All</button> -->
 			<button class="control-btn" onclick="centerOnStart(window.firstVideoId, window.cy)"><i class="bi bi-house"></i> Go to Start</button>
 			<a href="download.php"><button class="control-btn"><i class="bi bi-download"></i> Download</button></a>
@@ -125,14 +125,18 @@ foreach($GLOBALS["data"] as $vid){
 				<span>Other</span>
 			</div>
 			<div class="legend-item">
-				<div class="legend-color" style="background: #fbbf24; width: 30px; height: 6px;"></div>
-				<span>Ending</span>
+				<div class="legend-color" style="background: #fbbf24;"></div>
+				<span>End</span>
 			</div>
 		</div>
 
 		<div class="btn-group">
-			<button class="control-btn" onclick="changeLayout('breadthfirst', window.cy, window.firstVideoId)">Tree Layout</button>
-			<button class="control-btn" onclick="changeLayout('cose', window.cy, window.firstVideoId)">Force Layout</button>
+			<button class="control-btn" onclick="changeLayout('breadthfirst', window.cy, window.firstVideoId)">
+				<i class="bi bi-diagram-2"></i> Tree Layout
+			</button>
+			<button class="control-btn" onclick="changeLayout('cose', window.cy, window.firstVideoId)">
+				Force Layout
+			</button>
 			<!-- <button class="control-btn" onclick="changeLayout('circle', window.cy, window.firstVideoId)">Circle Layout</button> -->
 		</div>
 	</div>
