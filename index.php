@@ -68,7 +68,7 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="header">
 		<h1>CGP Grey: Rock Paper Scissors</h1>
 		<h2>Interactive Network Visualization</h2>
-		<div>
+		<div class="footer">
 			<p>Made by <a href="https://andreithuler.com" target="_blank">Andrei Thüler</a> |
 			<!-- <a href="https://github.com/athuler/CgpGreyRockPaperScissors/issues" target="_blank">Report Bug</a> | -->
 			<a href="https://github.com/athuler/CgpGreyRockPaperScissors" target="_blank">Source</a> |
@@ -82,7 +82,7 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="breadcrumb">
 		<div>
 			<span><?=count(array_keys($GLOBALS["data"]))?></span> videos |
-			<span><?=number_format($total_views)?></span> total views
+			<span><?=number_format($total_views)?></span> views
 			<!-- | <span><?=number_format($total_possible_games)?></span> possible games -->
 			<span class="hide-on-small"> | Click any node to explore</span>
 		</div>
@@ -97,7 +97,7 @@ foreach($GLOBALS["data"] as $vid){
 				} elseif ($diff->i > 0) {
 					echo $diff->i . ' minute' . ($diff->i > 1 ? 's' : '') . ' ago';
 				} else {
-					echo 'Just now';
+					echo 'now';
 				}
 			?>
 		</div>
