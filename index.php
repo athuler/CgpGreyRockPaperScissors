@@ -108,6 +108,7 @@ foreach($GLOBALS["data"] as $vid){
 			<button class="control-btn" onclick="resetView(window.cy, window.firstVideoId)"><i class="bi bi-arrows-angle-contract"></i> Reset View</button>
 			<!-- <button class="control-btn" onclick="fitToScreen(window.cy)"><i class="bi bi-fullscreen"></i> Fit All</button> -->
 			<button class="control-btn" onclick="centerOnStart(window.firstVideoId, window.cy)"><i class="bi bi-house"></i> Go to Start</button>
+			<a href="download.php"><button class="control-btn"><i class="bi bi-download"></i> Download</button></a>
 		</div>
 
 		<div class="legend">
