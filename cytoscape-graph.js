@@ -271,7 +271,7 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			circle: false,
 			depthSort: (a, b) => a.data('depth') - b.data('depth')
 		},
-		minZoom: 0.1,
+		minZoom: 0.02,
 		maxZoom: 3
 	});
 
@@ -440,7 +440,7 @@ function navigateToNode(nodeId, cy) {
 	if (node.length > 0) {
 		cy.animate({
 			center: { eles: node },
-			zoom: 1.5,
+			zoom: 0.8,
 			duration: 500
 		});
 		showInfoPanel(node, window.firstVideoViews);
