@@ -82,9 +82,9 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="breadcrumb">
 		<div>
 			<span><?=count(array_keys($GLOBALS["data"]))?></span> videos |
-			<span><?=number_format($total_views)?></span> total views |
-			<!-- <span><?=number_format($total_possible_games)?></span> possible games | -->
-			Click any node to explore
+			<span><?=number_format($total_views)?></span> total views
+			<!-- | <span><?=number_format($total_possible_games)?></span> possible games -->
+			<span class="hide-on-small"> | Click any node to explore</span>
 		</div>
 		<div id="last-updated">
 			Updated <?php
@@ -106,7 +106,7 @@ foreach($GLOBALS["data"] as $vid){
 	<div id="controls">
 		<div class="btn-group">
 			<button class="control-btn" onclick="resetView(window.cy, window.firstVideoId)"><i class="bi bi-arrows-angle-contract"></i> Reset View</button>
-			<button class="control-btn" onclick="fitToScreen(window.cy)"><i class="bi bi-fullscreen"></i> Fit All</button>
+			<!-- <button class="control-btn" onclick="fitToScreen(window.cy)"><i class="bi bi-fullscreen"></i> Fit All</button> -->
 			<button class="control-btn" onclick="centerOnStart(window.firstVideoId, window.cy)"><i class="bi bi-house"></i> Go to Start</button>
 		</div>
 
@@ -132,7 +132,7 @@ foreach($GLOBALS["data"] as $vid){
 		<div class="btn-group">
 			<button class="control-btn" onclick="changeLayout('breadthfirst', window.cy, window.firstVideoId)">Tree Layout</button>
 			<button class="control-btn" onclick="changeLayout('cose', window.cy, window.firstVideoId)">Force Layout</button>
-			<button class="control-btn" onclick="changeLayout('circle', window.cy, window.firstVideoId)">Circle Layout</button>
+			<!-- <button class="control-btn" onclick="changeLayout('circle', window.cy, window.firstVideoId)">Circle Layout</button> -->
 		</div>
 	</div>
 
