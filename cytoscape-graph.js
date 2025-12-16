@@ -228,6 +228,24 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 				}
 			},
 			{
+				selector: '.connected-win',
+				style: {
+					'background-color': '#22c55e',
+					'border-color': '#16a34a',
+					'border-width': 4,
+					'z-index': 9998
+				}
+			},
+			{
+				selector: '.connected-lose',
+				style: {
+					'background-color': '#ef4444',
+					'border-color': '#dc2626',
+					'border-width': 4,
+					'z-index': 9998
+				}
+			},
+			{
 				selector: '.dimmed',
 				style: {
 					'opacity': 0.2
@@ -236,7 +254,7 @@ function initializeGraph(videoData, firstVideoId, firstVideoViews) {
 			{
 				selector: '.path-highlight',
 				style: {
-					'width': ele => ele.data('width') * 2.5,
+					'width': ele => ele.data('width') * 3.5,
 					'opacity': 1,
 					'z-index': 9999
 				}
@@ -378,16 +396,35 @@ function closeInfoPanel() {
 }
 
 function highlightNode(node, cy) {
-	cy.elements().removeClass('selected connected dimmed path-highlight');
+	cy.elements().removeClass('selected connected connected-win connected-lose dimmed path-highlight');
 
 	// Highlight the selected node
 	node.addClass('selected');
 
-	// Highlight connected nodes (parents and children)
-	const connectedNodes = node.neighborhood().nodes();
-	connectedNodes.addClass('connected');
+	// Get parent and child nodes
+	const parents = node.incomers().nodes();
+	const children = node.outgoers().nodes();
+
+	// Color parents with default blue
+	parents.addClass('connected');
+
+	// Color children based on edge type
+	const childEdges = node.outgoers().edges();
+	childEdges.forEach(edge => {
+		const edgeType = edge.data('edgeType');
+		const targetNode = cy.$(`#${edge.data('target')}`);
+
+		if (edgeType === 'W') {
+			targetNode.addClass('connected-win');
+		} else if (edgeType === 'L') {
+			targetNode.addClass('connected-lose');
+		} else {
+			targetNode.addClass('connected');
+		}
+	});
 
 	// Dim everything else
+	const connectedNodes = parents.add(children);
 	cy.elements().not(node).not(connectedNodes).not(node.connectedEdges()).addClass('dimmed');
 
 	// Highlight edges (make them thicker but keep original colors)
@@ -395,7 +432,7 @@ function highlightNode(node, cy) {
 }
 
 function clearHighlights(cy) {
-	cy.elements().removeClass('selected connected dimmed path-highlight');
+	cy.elements().removeClass('selected connected connected-win connected-lose dimmed path-highlight');
 }
 
 function navigateToNode(nodeId, cy) {
