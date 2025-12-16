@@ -29,6 +29,14 @@ foreach($GLOBALS["data"] as $vid){
 	$total_views += $vid->views;
 }
 
+// Compute total number of possible games (sum of paths from ending nodes)
+$total_possible_games = 0;
+foreach($GLOBALS["data"] as $vid){
+	if($vid->ending) {
+		$total_possible_games += count($vid->paths);
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +83,7 @@ foreach($GLOBALS["data"] as $vid){
 		<div>
 			<span><?=count(array_keys($GLOBALS["data"]))?></span> videos |
 			<span><?=number_format($total_views)?></span> total views |
+			<!-- <span><?=number_format($total_possible_games)?></span> possible games | -->
 			Click any node to explore
 		</div>
 		<div id="last-updated">
